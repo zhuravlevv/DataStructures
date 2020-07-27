@@ -1,4 +1,4 @@
-import java.util.Stack;
+import base.structrures.Stack;
 
 public class QueueFromStacks<T> {
 
@@ -41,7 +41,7 @@ public class QueueFromStacks<T> {
      * Time complexity: O(1)
      */
     public void dequeue() {
-        if (s1.empty()) {
+        if (s1.isEmpty()) {
             return;
         }
         s1.pop();
@@ -67,7 +67,7 @@ public class QueueFromStacks<T> {
      * @return the front element of the queue.
      */
     public T front() {
-        if (s1.empty()) {
+        if (s1.isEmpty()) {
             return null;
         }
         return s1.peek();

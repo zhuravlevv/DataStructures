@@ -1,5 +1,4 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import base.structrures.Queue;
 
 public class StackFromQueues <T> {
 
@@ -7,8 +6,8 @@ public class StackFromQueues <T> {
     private long size;
 
     public StackFromQueues() {
-        q1 = new LinkedList<>();
-        q2 = new LinkedList<>();
+        q1 = new Queue<>();
+        q2 = new Queue<>();
     }
 
     /**
