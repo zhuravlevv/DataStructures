@@ -17,6 +17,7 @@ public class StackFromQueues <T> {
      * enqueue to q2. Swap the names of q1 and q2
      *
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param t position of the element.
      */
@@ -41,6 +42,7 @@ public class StackFromQueues <T> {
      * Dequeue an item from q1.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      */
     public void pop() {
@@ -55,6 +57,7 @@ public class StackFromQueues <T> {
      * Returns the size of the stack.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @return the size of the stack.
      */
@@ -66,6 +69,7 @@ public class StackFromQueues <T> {
      * Returns the top element of the stack.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @return the top element of the stack.
      */
@@ -80,6 +84,7 @@ public class StackFromQueues <T> {
      * Returns true if the stack is currently empty.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @return true if the stack is currently empty.
      */

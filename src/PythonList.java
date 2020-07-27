@@ -16,8 +16,9 @@ public class PythonList {
 
     /**
      * Returns the size of the list.
-     *
+     * <p>
      * Time complexity: O(1).
+     * Space complexity: O(1).
      *
      * @return the size of the list.
      */
@@ -27,8 +28,9 @@ public class PythonList {
 
     /**
      * Returns true if the list is currently empty.
-     *
+     * <p>
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @return true if the list is currently empty.
      */
@@ -38,8 +40,9 @@ public class PythonList {
 
     /**
      * Appends the specified element to the end of this list.
-     *
+     * <p>
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param x element to be appended to this list.
      */
@@ -59,9 +62,9 @@ public class PythonList {
 
     /**
      * Removes all elements from the list.
-     *
+     * <p>
      * Time complexity: O(n)
-     *
+     * Space complexity: O(n)
      */
     public void clear() {
         for (Node tmp = head; tmp != null; ) {
@@ -76,8 +79,9 @@ public class PythonList {
 
     /**
      * Returns the number of times x appears in the list.
-     *
+     * <p>
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param x the required element.
      * @return number of times x appears in the list.
@@ -96,8 +100,9 @@ public class PythonList {
 
     /**
      * Returns element stored at i elements away from the list.
-     *
+     * <p>
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param i position of the element.
      * @return the required element.
@@ -117,8 +122,9 @@ public class PythonList {
 
     /**
      * Add an item to the list at position first element.
-     *
+     * <p>
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param i position of the element.
      * @param x element to be appended to this list.
@@ -144,8 +150,9 @@ public class PythonList {
 
     /**
      * Remove the first item from the list whose value is equal to x.
-     *
+     * <p>
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param x value.
      */
@@ -166,9 +173,9 @@ public class PythonList {
 
     /**
      * Reverse the elements of the list in place.
-     *
+     * <p>
      * Time complexity: O(n)
-     *
+     * Space complexity: O(n)
      */
     public void reverse() {
         Node tmp = head;

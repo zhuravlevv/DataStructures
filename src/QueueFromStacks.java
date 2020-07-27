@@ -17,6 +17,7 @@ public class QueueFromStacks<T> {
      * Move all elements from s2 to s1.
      *
      * Time complexity: O(n)
+     * Space complexity: O(n)
      *
      * @param t an element.
      */
@@ -39,6 +40,8 @@ public class QueueFromStacks<T> {
      * Pop element from s1.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
+     *
      */
     public void dequeue() {
         if (s1.isEmpty()) {
@@ -63,6 +66,7 @@ public class QueueFromStacks<T> {
      * Returns the front element of the queue.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @return the front element of the queue.
      */
@@ -77,6 +81,8 @@ public class QueueFromStacks<T> {
      * Returns true if the queue is currently empty.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
+     *
      *
      * @return true if the queue is currently empty.
      */

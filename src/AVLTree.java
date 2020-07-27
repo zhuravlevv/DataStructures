@@ -4,7 +4,7 @@
  * To satisfy the requirements for this class are used types: generic T.
  *
  */
-public class AVLTree <T>{
+public class AVLTree <T> {
 
     private Node root;
 
@@ -12,21 +12,23 @@ public class AVLTree <T>{
      * A method to insert the element.
      *
      * Time complexity: O(log(n)).
+     * Space complexity: O(n).
      *
      * @param t - new element.
      */
-    public void insert(T t){
-        insert(root, t);
+    public void insert(T t) {
+        root = insert(root, t);
     }
 
     /**
      * A method to delete the element.
-     *
+     * <p>
      * Time complexity: O(log(n)).
+     * Space complexity: O(n).
      *
      * @param t - element.
      */
-    public void delete(T t){
+    public void delete(T t) {
         deleteNode(root, t);
     }
 
@@ -34,13 +36,15 @@ public class AVLTree <T>{
      * A method to get the height of the tree.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1).
      *
      * @param node - node.
      * @return the height.
      */
     private int height(Node node) {
-        if (node == null)
+        if (node == null) {
             return 0;
+        }
 
         return node.height;
     }
@@ -49,6 +53,7 @@ public class AVLTree <T>{
      * A utility function to get maximum of two integers.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1).
      *
      * @param a - the first number.
      * @param b - the second number.
@@ -62,6 +67,7 @@ public class AVLTree <T>{
      * A method to right rotate subtree rooted with y.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1).
      *
      * @param y - root.
      * @return the height.
@@ -83,11 +89,12 @@ public class AVLTree <T>{
      * A method to left rotate subtree rooted with x.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1).
      *
      * @param x - root.
      * @return the y.
      */
-    Node leftRotate(Node x) {
+    private Node leftRotate(Node x) {
         Node y = x.right;
         Node T2 = y.left;
 
@@ -104,13 +111,15 @@ public class AVLTree <T>{
      * A method to get balance factor of node.
      *
      * Time complexity: O(1)
+     * Space complexity: O(1)
      *
      * @param node - node.
      * @return the balance factor.
      */
-    int getBalance(Node node) {
-        if (node == null)
+    private int getBalance(Node node) {
+        if (node == null) {
             return 0;
+        }
 
         return height(node.left) - height(node.right);
     }
@@ -129,33 +138,40 @@ public class AVLTree <T>{
      * Right Left.
      *
      * Time complexity: O(log(n))
+     * Space complexity: O(n)
      *
      * @param node - node to insertion.
-     * @param key - key.
+     * @param key  - key.
      * @return the node.
      */
-    public Node insert(Node node, T key) {
+    private Node insert(Node node, T key) {
 
-        if (node == null)
+        if (node == null) {
             return (new Node(key));
+        }
 
-        if (key.hashCode() < node.key.hashCode())
+        if (key.hashCode() < node.key.hashCode()) {
             node.left = insert(node.left, key);
-        else if (key.hashCode() > node.key.hashCode())
+        }
+        else if (key.hashCode() > node.key.hashCode()) {
             node.right = insert(node.right, key);
-        else
+        }
+        else {
             return node;
+        }
 
         node.height = 1 + max(height(node.left),
                 height(node.right));
 
         int balance = getBalance(node);
 
-        if (balance > 1 && key.hashCode() < node.left.key.hashCode())
+        if (balance > 1 && key.hashCode() < node.left.key.hashCode()) {
             return rightRotate(node);
+        }
 
-        if (balance < -1 && key.hashCode() > node.right.key.hashCode())
+        if (balance < -1 && key.hashCode() > node.right.key.hashCode()) {
             return leftRotate(node);
+        }
 
         if (balance > 1 && key.hashCode() > node.left.key.hashCode()) {
             node.left = leftRotate(node.left);
@@ -174,6 +190,7 @@ public class AVLTree <T>{
      * A method to get min value of node.
      *
      * Time complexity: O(log(n))
+     * Space complexity: O(n).
      *
      * @param node - node.
      * @return left node.
@@ -181,17 +198,15 @@ public class AVLTree <T>{
     private Node minValueNode(Node node) {
         Node current = node;
 
-        /* loop down to find the leftmost leaf */
-        while (current.left != null)
+        while (current.left != null) {
             current = current.left;
+        }
 
         return current;
     }
 
     /**
      * A method to delete node.
-     *
-     * Time complexity: O(log(n))
      *
      * Check if root is null and if it is - return it.
      * If the key to be deleted is smaller than the root's key,
@@ -206,38 +221,40 @@ public class AVLTree <T>{
      * If this node becomes unbalanced, then there are 4 cases:
      * Left Left, Left Right, Right Right, Right Left.
      *
+     * Time complexity: O(log(n))
+     * Space complexity: O(n).
+     *
      * @param root - root node.
-     * @param key - value.
+     * @param key  - value.
      * @return root.
      */
     private Node deleteNode(Node root, T key) {
         if (root == null)
             return root;
 
-        if (key.hashCode() < root.key.hashCode())
+        if (key.hashCode() < root.key.hashCode()) {
             root.left = deleteNode(root.left, key);
+        }
 
-        else if (key.hashCode() > root.key.hashCode())
+        else if (key.hashCode() > root.key.hashCode()) {
             root.right = deleteNode(root.right, key);
+        }
 
         else {
-
             if ((root.left == null) || (root.right == null)) {
                 Node temp = null;
-                if (temp == root.left)
+                if (temp == root.left) {
                     temp = root.right;
-                else
+                } else {
                     temp = root.left;
-
+                }
                 if (temp == null) {
                     temp = root;
                     root = null;
-                }
-                else {
+                } else {
                     root = temp;
                 }
-            }
-            else {
+            } else {
                 Node temp = minValueNode(root.right);
 
                 root.key = temp.key;
@@ -246,23 +263,26 @@ public class AVLTree <T>{
             }
         }
 
-        if (root == null)
+        if (root == null) {
             return root;
+        }
 
         root.height = max(height(root.left), height(root.right)) + 1;
 
         int balance = getBalance(root);
 
-        if (balance > 1 && getBalance(root.left) >= 0)
+        if (balance > 1 && getBalance(root.left) >= 0) {
             return rightRotate(root);
+        }
 
         if (balance > 1 && getBalance(root.left) < 0) {
             root.left = leftRotate(root.left);
             return rightRotate(root);
         }
 
-        if (balance < -1 && getBalance(root.right) <= 0)
+        if (balance < -1 && getBalance(root.right) <= 0) {
             return leftRotate(root);
+        }
 
         if (balance < -1 && getBalance(root.right) > 0) {
             root.right = rightRotate(root.right);
@@ -271,43 +291,6 @@ public class AVLTree <T>{
 
         return root;
     }
-
-
-
-    // A utility function to print preorder traversal
-    // of the tree.
-    // The function also prints height of every node
-    void preOrder(Node node) {
-        if (node != null) {
-            System.out.print(node.key + " ");
-            preOrder(node.left);
-            preOrder(node.right);
-        }
-    }
-
-//    public static void main(String[] args) {
-//        AVLTree tree = new AVLTree();
-//
-//        /* Constructing tree given in the above figure */
-//        tree.root = tree.insert(tree.root, 10);
-//        tree.root = tree.insert(tree.root, 20);
-//        tree.root = tree.insert(tree.root, 30);
-//        tree.root = tree.insert(tree.root, 40);
-//        tree.root = tree.insert(tree.root, 50);
-//        tree.root = tree.insert(tree.root, 25);
-//
-//        /* The constructed AVL Tree would be
-//             30
-//            /  \
-//          20   40
-//         /  \     \
-//        10  25    50
-//        */
-//        System.out.println("Preorder traversal" +
-//                " of constructed tree is : ");
-//        tree.preOrder(tree.root);
-//    }
-
 
     private static class Node<T> {
         T key;
