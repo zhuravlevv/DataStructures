@@ -6,6 +6,7 @@ import java.util.Scanner;
  * A class to create Choose Your Adventure App and using it.
  *
  * To satisfy the requirements for this class are used types: int, String.
+ * Data structures: list, tree.
  *
  */
 public class ChooseYourAdventure {
