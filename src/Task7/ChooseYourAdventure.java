@@ -2,6 +2,12 @@ package Task7;
 
 import java.util.Scanner;
 
+/**
+ * A class to create Choose Your Adventure App and using it.
+ *
+ * To satisfy the requirements for this class are used types: int, String.
+ *
+ */
 public class ChooseYourAdventure {
 
     private Node head;
@@ -16,12 +22,23 @@ public class ChooseYourAdventure {
         maxId = 0;
     }
 
+    /**
+     * A method to start play.
+     * <p>
+     * Prints starting story. Then checks the user's selection and
+     * prints the next stories until the user reaches the ending story.
+     * <p>
+     * Time complexity: O(log(n))
+     * Space complexity: O(n).
+     */
     public void play() {
         System.out.println(root.story);
+        root.timesVisited++;
+        Element.addStoryLine(root.story);
         Element tmp = root;
-        while (tmp!=null) {
-            if(tmp.isEnding()){
-                System.out.println("The end of the story!");
+        while (tmp != null) {
+            if (tmp.isEnding()) {
+                System.out.println("\nThe end of the story!");
                 break;
             }
             if (tmp.left != null) {
@@ -36,10 +53,14 @@ public class ChooseYourAdventure {
                 if (choice == 1) {
                     tmp = tmp.left;
                     System.out.println(tmp.story);
+                    tmp.timesVisited++;
+                    Element.addStoryLine(" -> \n" + tmp.story);
                 } else if (choice == 2) {
                     if (tmp.right != null) {
                         tmp = tmp.right;
                         System.out.println(tmp.story);
+                        tmp.timesVisited++;
+                        Element.addStoryLine(" -> \n" + tmp.story);
                     } else {
                         System.out.println("Branch (" + choice + ") doesn't exist.");
                     }
@@ -47,13 +68,21 @@ public class ChooseYourAdventure {
                     System.out.println("Branch (" + choice + ") doesn't exist.");
                 }
             } else {
-                System.out.println("The end of the story!");
+                System.out.println("\nThe end of the story!");
                 break;
             }
         }
 
     }
 
+    /**
+     * A method to print not ending nodes.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     *
+     * @return number of not ending elements.
+     */
     public int printNotEndingNodes() {
         int count = 0;
         Node tmp = null;
@@ -61,7 +90,7 @@ public class ChooseYourAdventure {
             tmp = head.next;
         }
         while (tmp != null) {
-            if(!tmp.element.isEnding()) {
+            if (!tmp.element.isEnding()) {
                 System.out.print("Element #" + tmp.id);
                 System.out.println(": " + tmp.element.story);
                 count++;
@@ -71,11 +100,62 @@ public class ChooseYourAdventure {
         return count;
     }
 
+    /**
+     * A method to update element.
+     * <p>
+     * Checks if there are elements to update. Take element id.
+     * Update element with that id.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
+    public void update() {
+        if (size != 0) {
+            int count = printNotEndingNodes();
+            if (count != 0) {
+                int id;
+                System.out.print("Enter element number: ");
+                Scanner scanner = new Scanner(System.in);
+                id = scanner.nextInt();
+                if (id <= maxId) {
+                    if (size == 1 || id == 1) {
+                        System.out.println("You can't update starting element.");
+                    } else {
+                        Node tmp = head;
+                        while (tmp.next.id != id) {
+                            tmp = tmp.next;
+                            if (tmp.next == null) {
+                                System.out.println("Element number " + id + " doesn't exist.");
+                                return;
+                            }
+                        }
+                        if (!tmp.next.element.isEnding()) {
+                            System.out.print("Enter new story: ");
+                            Scanner updateScanner = new Scanner(System.in);
+                            String story = updateScanner.nextLine();
+                            tmp.next.element.updateStory(story);
+                        } else {
+                            System.out.println("You can't update ending element.");
+                        }
+                    }
+                } else {
+                    System.out.println("Element number " + id + " doesn't exist.");
+                }
+            } else {
+                System.out.println("There are no elements to update.");
+            }
+        } else {
+            System.out.println("There are no elements.");
+        }
+    }
+
+    /**
+     * A method to print nodes.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
     public void printNodes() {
-//        Node tmp = null;
-//        if (head != null) {
-//            tmp = head.next;
-//        }
         Node tmp = head;
         while (tmp != null) {
             System.out.print("Element #" + tmp.id);
@@ -87,7 +167,16 @@ public class ChooseYourAdventure {
         }
     }
 
-    public void init(){
+    /**
+     * A method to initialise Choose Your Adventure App.
+     * <p>
+     * Creates start element. Take number of ending elements.
+     * Creates ending elements.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
+    public void init() {
         System.out.print("Enter story for start element: ");
         Scanner scanner = new Scanner(System.in);
         String story = scanner.nextLine();
@@ -96,10 +185,10 @@ public class ChooseYourAdventure {
         size++;
         System.out.print("Enter the number of ending elements: ");
         int num = scanner.nextInt();
-        size+=num;
+        size += num;
         for (int i = 0; i < num; i++) {
             Scanner scanner1 = new Scanner(System.in);
-            int number = i+1;
+            int number = i + 1;
             System.out.print("Enter story for ending element #" + number + ": ");
             String endingStory = scanner1.nextLine();
             Element element = new Element(null, null, endingStory, true);
@@ -113,34 +202,23 @@ public class ChooseYourAdventure {
         }
     }
 
-    public void printById(int id){
-        Node tmp = head;
-        while (tmp!=null){
-            if(tmp.id == id){
-                if(tmp.element.left != null){
-                    System.out.println(tmp.element.left.story);
-                }
-                else{
-                    System.out.println("null");
-                }
-                if(tmp.element.right != null){
-                    System.out.println(tmp.element.right.story);
-                }
-                else{
-                    System.out.println("null");
-                }
-                break;
-            }
-            tmp = tmp.next;
-        }
-    }
-
-    public int[] printNodesWithFreeLinks(){
+    /**
+     * A method to print nodes with free links.
+     * <p>
+     * Goes through the list of nodes. Prints nodes with free links and keeps
+     * their ids.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     *
+     * @return ids nodes with free links.
+     */
+    public int[] printNodesWithFreeLinks() {
         Node tmp = head;
         int[] ids = new int[maxId];
         int i = 0;
-        while(tmp!=null){
-            if((tmp.element.left==null || tmp.element.right==null) && !tmp.element.isEnding()){
+        while (tmp != null) {
+            if ((tmp.element.left == null || tmp.element.right == null) && !tmp.element.isEnding()) {
                 System.out.println("Element #" + tmp.id + ": " + tmp.element.story);
                 ids[i] = tmp.id;
                 i++;
@@ -150,6 +228,18 @@ public class ChooseYourAdventure {
         return ids;
     }
 
+    /**
+     * A method to add link.
+     * <p>
+     * Finds nodes with ids from and to.
+     * Adds link between them.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     *
+     * @param from - node id from the element of which the link will go.
+     * @param to   - node id to the element of which the link will go.
+     */
     private void addLink(int from, int to) {
         Element fromElement = null, toElement = null;
         Node tmp = head;
@@ -170,39 +260,61 @@ public class ChooseYourAdventure {
         }
     }
 
-    private void removeLink(int from, int to){
+    /**
+     * A method to remove link.
+     * <p>
+     * Finds nodes with ids from and to.
+     * Removes link between them.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     *
+     * @param from - node id from the element of which the link will be removed.
+     * @param to   - node id to the element of which the link will be removed.
+     */
+    private void removeLink(int from, int to) {
         Node tmp = head;
         Element elementFrom = null, elementTo = null;
-        while (tmp!=null){
-            if(tmp.id == from){
+        while (tmp != null) {
+            if (tmp.id == from) {
                 elementFrom = tmp.element;
             }
-            if(tmp.id == to){
+            if (tmp.id == to) {
                 elementTo = tmp.element;
             }
             tmp = tmp.next;
         }
-        if(elementFrom != null){
-            if(elementFrom.right!=null){
-                if(elementFrom.right == elementTo){
+        if (elementFrom != null) {
+            if (elementFrom.right != null) {
+                if (elementFrom.right == elementTo) {
                     elementFrom.right = null;
                 }
             }
-            if(elementFrom.left!=null){
-                if(elementFrom.left == elementTo){
+            if (elementFrom.left != null) {
+                if (elementFrom.left == elementTo) {
                     elementFrom.left = null;
                 }
             }
         }
     }
 
+    /**
+     * A method to add link.
+     * <p>
+     * Checks of there are elements to link.
+     * Asks the user between which elements he wants to add a link.
+     * Calls private addLink method.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
     public void addLink() {
         int[] ids = printNodesWithFreeLinks();
-        if(ids.length==0){
+        if (ids.length == 0) {
             System.out.println("There are no elements to link.");
             return;
         }
-        if(ids[0]==0){
+        if (ids[0] == 0) {
             System.out.println("There are no elements to link.");
             return;
         }
@@ -231,7 +343,16 @@ public class ChooseYourAdventure {
         }
     }
 
-    public void removeLink(){
+    /**
+     * A method to remove link.
+     * <p>
+     * Asks the user between which elements he wants to remove a link.
+     * Calls private removeLink method.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
+    public void removeLink() {
         System.out.println("Select the elements between which you want to remove the link: ");
         printNodes();
         Scanner scanner = new Scanner(System.in);
@@ -242,10 +363,26 @@ public class ChooseYourAdventure {
         removeLink(from, to);
     }
 
-    public int numberOfElements(){
+    /**
+     * A method to return number of elements.
+     * <p>
+     * Time complexity: O(1)
+     * Space complexity: O(1).
+     *
+     * @return number of elements.
+     */
+    public int numberOfElements() {
         return size;
     }
 
+    /**
+     * A method to add element.
+     * <p>
+     * Takes story from creator. Creates element and adds it to list.
+     * <p>
+     * Time complexity: O(n)
+     * Space complexity: O(n).
+     */
     public void addElement() {
         String story;
         System.out.print("Enter story: ");
@@ -265,6 +402,16 @@ public class ChooseYourAdventure {
         size++;
     }
 
+    /**
+     * A method to remove element.
+     * <p>
+     * Checks if there are elements to remove.
+     * Takes element number to remove. Removes if element exists.
+     * Remove links connected with that element.
+     * <p>
+     * Time complexity: O(n^2)
+     * Space complexity: O(n).
+     */
     public void removeElement() {
         if (size != 0) {
             int count = printNotEndingNodes();
@@ -310,11 +457,12 @@ public class ChooseYourAdventure {
     }
 
 
-    private static class Element{
+    private static class Element {
         private Element left;
         private Element right;
         private String story;
         private boolean ending;
+        private static String storyLine;
         private int timesVisited;
 
         public Element(Element left, Element right, String story, boolean ending) {
@@ -324,20 +472,65 @@ public class ChooseYourAdventure {
             this.ending = ending;
         }
 
+        /**
+         * A method to add story to storyLine.
+         * <p>
+         * Time complexity: O(1)
+         * Space complexity: O(1).
+         *
+         * @param story - story to add.
+         */
+        public static void addStoryLine(String story) {
+            storyLine = storyLine.concat(story);
+        }
+
+        /**
+         * A method to return isEnding.
+         * <p>
+         * Time complexity: O(1)
+         * Space complexity: O(1).
+         *
+         * @return is ending element.
+         */
         public boolean isEnding() {
             return ending;
         }
 
-        public void updateStory(String story){
+        /**
+         * A method to update story.
+         * <p>
+         * Time complexity: O(1)
+         * Space complexity: O(1).
+         *
+         * @param story - new story.
+         */
+        public void updateStory(String story) {
             this.story = story;
         }
 
-        public void removeStory(){
+        /**
+         * A method to remove story.
+         * <p>
+         * Time complexity: O(1)
+         * Space complexity: O(1).
+         */
+        public void removeStory() {
             story = "";
         }
+
+        /**
+         * A method to print times visited.
+         * <p>
+         * Time complexity: O(1)
+         * Space complexity: O(1).
+         */
+        public void printTimesVisited() {
+            System.out.println("This element was " + timesVisited + " times visited.");
+        }
+
     }
 
-    private static class Node{
+    private static class Node {
         private Node next;
         private Element element;
         private int id;
